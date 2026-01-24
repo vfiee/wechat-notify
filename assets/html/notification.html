@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>通知详情</title>
+  <style>
+    /* CSS Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f3f4f6;
+      color: #1f2937;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin-top: 4vh;
+    }
+
+    /* Card */
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    /* Header */
+    .header {
+      padding: 24px 24px 16px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #111827;
+      word-break: break-word;
+    }
+
+    /* Badges */
+    .badge {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+      letter-spacing: 0.025em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .badge-info {
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    .badge-warning {
+      background: #fffbeb;
+      color: #b45309;
+    }
+
+    .badge-error {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .badge-success {
+      background: #f0fdf4;
+      color: #15803d;
+    }
+
+    /* Content */
+    .content {
+      padding: 24px;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #374151;
+      white-space: pre-wrap;
+      /* Preserve line breaks */
+      word-break: break-word;
+    }
+
+    /* Image */
+    .image-container {
+      width: 100%;
+      padding: 0 24px 24px;
+      margin-top: 24px;
+    }
+
+    .image {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+      object-fit: contain;
+      max-height: 500px;
+      background-color: #f9fafb;
+    }
+
+    /* Footer */
+    .footer {
+      background: #f9fafb;
+      padding: 12px 24px;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      text-align: center;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    /* Animation */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+      }
+
+      .header {
+        padding: 20px 20px 12px;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .image-container {
+        padding: 0 20px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <div class="title-row">
+          <h1 id="title" class="title"></h1>
+          <span id="level" class="badge" style="display: none;"></span>
+        </div>
+      </div>
+      <div id="image-box" class="image-container" style="display: none;">
+        <img id="image" class="image" src="" alt="Notification Image" loading="lazy" />
+      </div>
+      <div id="content" class="content"></div>
+
+      <div class="footer">
+        © Notify Service
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const title = getQueryParam('title');
+      const content = getQueryParam('content');
+      const level = getQueryParam('level');
+      const image = getQueryParam('image');
+
+      // Title
+      const titleEl = document.getElementById('title');
+      titleEl.innerText = title || '无标题通知';
+      document.title = title || '通知详情';
+
+      // Content
+      const contentEl = document.getElementById('content');
+      if (content) {
+        contentEl.textContent = content;
+      } else {
+        contentEl.style.display = 'none';
+      }
+
+      // Level / Urgency
+      const levelEl = document.getElementById('level');
+      if (level) {
+        levelEl.style.display = 'inline-block';
+        levelEl.innerText = level;
+
+        // Determine style
+        const lvl = level.toLowerCase();
+        if (['high', 'critical', 'error', 'urgent', '紧急', '严重', '高'].some(k => lvl.includes(k))) {
+          levelEl.className = 'badge badge-error';
+        } else if (['warn', 'warning', 'medium', '警告', '中'].some(k => lvl.includes(k))) {
+          levelEl.className = 'badge badge-warning';
+        } else if (['success', 'ok', 'normal', '成功', '普通', '低'].some(k => lvl.includes(k))) {
+          levelEl.className = 'badge badge-success';
+        } else {
+          levelEl.className = 'badge badge-info';
+        }
+      }
+
+      // Image
+      const imgBox = document.getElementById('image-box');
+      const imgEl = document.getElementById('image');
+
+      // Use provided image or default to fixed path
+      // If image is "null" or empty, use default
+      const imgSrc = image || '/images/notify.webp';
+
+      if (imgSrc) {
+        imgBox.style.display = 'block';
+        imgEl.src = imgSrc;
+
+        // Simple error handling
+        imgEl.onerror = () => {
+          // If main image fails, you could try to hide it, 
+          // or maybe fall back to default if it wasn't default already.
+          // For now, let's just hide it to be safe.
+          imgBox.style.display = 'none';
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

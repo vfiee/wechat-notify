@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  notify:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: vyronfiee/wechat-notify:latest
+    container_name: wechat-notify
+    restart: unless-stopped
+    ports:
+      - '${PORT:-8089}:8089'
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=${PORT:-8089}
+      - API_PREFIX=${API_PREFIX:-api}
+      - WECHAT_CORP_ID=${WECHAT_CORP_ID}
+      - WECHAT_AGENT_ID=${WECHAT_AGENT_ID}
+      - WECHAT_SECRET=${WECHAT_SECRET}
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "require('http').get('http://localhost:8089/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})",
+        ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - notify-network
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+networks:
+  notify-network:
+    driver: bridge

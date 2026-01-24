@@ -1,0 +1,67 @@
+{
+    "Version": "1",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "fc:CreateFunction",
+                "fc:UpdateFunction",
+                "fc:DeleteFunction",
+                "fc:GetFunction",
+                "fc:InvokeFunction",
+                "fc:ListFunctions",
+                "fc:ListTriggers",
+                "fc:CreateTrigger",
+                "fc:DeleteTrigger",
+                "fc:GetTrigger",
+                "fc:UpdateTrigger",
+                "fc:TagResource",
+                "fc:UntagResource",
+                "fc:ListTags"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ram:PassRole",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "vpc:DescribeVpcs",
+                "vpc:DescribeVSwitches"
+            ],
+            "Resource": "*"{
+                "Effect": "Allow",
+                "Action": [
+                    "log:CreateProject",
+                    "log:GetProject",
+                    "log:DeleteProject",
+                    "log:CreatesLogStore",
+                    "log:GetLogStore",
+                    "log:DeleteLogStore",
+                    "log:CreateConfig",
+                    "log:UpdateConfig",
+                    "log:GetConfig",
+                    "log:DeleteConfig",
+                    "log:CreateMachineGroup",
+                    "log:UpdateMachineGroup",
+                    "log:GetMachineGroup",
+                    "log:DeleteMachineGroup",
+                    "log:ApplyConfigToMachineGroup",
+                    "log:RemoveConfigFromMachineGroup",
+                    "log:CreateIndex",
+                    "log:GetIndex",
+                    "log:UpdateIndex",
+                    "log:DeleteIndex",
+                    "log:CreateLogStore",
+                    "log:DeleteLogStore",
+                    "log:CreateDashboard",
+                    "log:UpdateDashboard",
+                    "log:PostLogStoreLogs"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }

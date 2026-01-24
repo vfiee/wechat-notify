@@ -1,0 +1,43 @@
+edition: 3.0.0
+name: wechat-notify-app
+access: default
+
+vars:
+  region: cn-hangzhou
+  service:
+    name: wechat-notify
+    description: 企业微信通知代理服务
+    role: acs:ram::${env(ALIYUN_ACCOUNT_ID)}:role/AliyunFCDefaultRole
+
+resources:
+  wechat-notify-fc:
+    component: fc3
+    props:
+      region: ${vars.region}
+      functionName: wechat-notify
+      description: 企业微信通知代理服务
+      runtime: nodejs20
+      code: ./
+      handler: dist/serverless.handler
+      memorySize: 512
+      timeout: 60
+      logConfig: auto
+      instanceConcurrency: 10
+      environmentVariables:
+        NODE_ENV: production
+        API_PREFIX: api
+        WECHAT_CORP_ID: ${env(WECHAT_CORP_ID)}
+        WECHAT_AGENT_ID: ${env(WECHAT_AGENT_ID)}
+        WECHAT_SECRET: ${env(WECHAT_SECRET)}
+      triggers:
+        - triggerConfig:
+            methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            authType: anonymous
+            disableURLInternet: false
+          triggerName: httpTrigger
+          triggerType: http
+          qualifier: LATEST
