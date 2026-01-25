@@ -104,4 +104,8 @@ export class SendCardMessageDto {
   @IsString()
   @IsOptional()
   totag?: string;
+
+  @IsString()
+  @IsOptional()
+  url?: string;
 }

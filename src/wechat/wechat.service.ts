@@ -160,6 +160,7 @@ export class WechatService {
       title: dto.title,
       content: dto.content,
       level: dto.level || 'urgent',
+      url: dto.url ? encodeURIComponent(dto.url) : '',
     });
     if (dto.image) {
       params.append('image', dto.image);

@@ -9,7 +9,7 @@ import { WechatService } from './wechat.service';
 
 @Controller('wechat')
 export class WechatController {
-  constructor(private readonly wechatService: WechatService) {}
+  constructor(private readonly wechatService: WechatService) { }
 
   /**
    * 发送文本消息
@@ -60,6 +60,32 @@ export class WechatController {
   @HttpCode(HttpStatus.OK)
   async sendCardMessage(@Body() dto: SendCardMessageDto) {
     const result = await this.wechatService.sendCardMessage(dto);
+    return {
+      success: true,
+      message: '卡片消息发送成功',
+      data: result,
+    };
+  }
+
+  /**
+   * 发送卡片消息 (简化接口)
+   */
+  @Post('send/uptime-kuma')
+  @HttpCode(HttpStatus.OK)
+  async sendUptimeKumaMessage(@Body() dto: any) {
+    console.log(`dto:`, dto);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { monitor, msg } = dto || {};
+    const body: SendCardMessageDto = {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      title: `${monitor?.name || 'Uptime-Kuma 通知'}`,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      content: msg,
+      level: '紧急',
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      url: monitor?.url || '',
+    };
+    const result = await this.wechatService.sendCardMessage(body);
     return {
       success: true,
       message: '卡片消息发送成功',

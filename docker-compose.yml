@@ -2,10 +2,7 @@ version: '3.8'
 
 services:
   notify:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
-    image: vyronfiee/wechat-notify:latest
+    image: ghcr.io/vfiee/wechat-notify
     container_name: wechat-notify
     restart: unless-stopped
     ports:
@@ -29,8 +26,6 @@ services:
       timeout: 3s
       retries: 3
       start_period: 10s
-    networks:
-      - notify-network
     logging:
       driver: 'json-file'
       options:
