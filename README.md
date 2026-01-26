@@ -6,6 +6,7 @@
 
 - 🚀 基于 NestJS 框架，高效、可扩展
 - 📦 支持多种消息类型（文本、Markdown、图文）
+- 📚 集成 Swagger API 文档，交互式接口测试
 - 🔐 自动管理 Access Token，避免频繁请求
 - 🐳 Docker 容器化部署，镜像最小化优化
 - ☁️ 支持阿里云 Serverless 部署（函数计算）
@@ -158,6 +159,25 @@ pnpm serverless:remove
 - **示例**: 1000 次/天 ≈ ¥0.6/月
 
 **详细说明**: 查看 [SERVERLESS_DEPLOY.md](./SERVERLESS_DEPLOY.md)
+
+## 📚 API 文档
+
+### Swagger 交互式文档
+
+启动服务后，访问以下地址查看完整的 API 文档：
+
+```
+http://localhost:8089/api-docs
+```
+
+Swagger UI 提供：
+
+- 📖 完整的接口说明和参数定义
+- 🧪 在线测试接口功能
+- 📝 请求和响应示例
+- 🔍 数据模型（Schemas）查看
+
+**详细文档**: 查看 [API_DOCS.md](./API_DOCS.md)
 
 ## 📡 API 接口
 
