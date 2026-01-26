@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
@@ -11,7 +14,7 @@ import { WechatService } from './wechat.service';
 @ApiTags('企业微信')
 @Controller('wechat')
 export class WechatController {
-  constructor(private readonly wechatService: WechatService) {}
+  constructor(private readonly wechatService: WechatService) { }
 
   /**
    * 发送文本消息
@@ -205,16 +208,12 @@ export class WechatController {
   })
   async sendUptimeKumaMessage(@Body() dto: any) {
     console.log(`dto:`, dto);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { monitor, msg } = dto || {};
     const body: SendCardMessageDto = {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      title: `${monitor?.name || 'Uptime-Kuma 通知'}`,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       content: msg,
       level: '紧急',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       url: monitor?.url || '',
+      title: `${monitor?.name || 'Uptime-Kuma 通知'}`,
     };
     const result = await this.wechatService.sendCardMessage(body);
     return {

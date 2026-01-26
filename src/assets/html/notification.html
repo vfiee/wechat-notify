@@ -313,7 +313,7 @@
 
       if (url) {
         buttonContainer.style.display = 'flex';
-        linkButton.href = url;
+        linkButton.href = decodeURIComponent(url);
       }
     });
   </script>
