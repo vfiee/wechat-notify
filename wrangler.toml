@@ -1,0 +1,23 @@
+name = "cf-notify-worker"
+main = "worker.js"
+compatibility_date = "2024-12-01"
+
+assets = { directory = "./assets", binding = "ASSETS" }
+
+[vars]
+# 全局
+API_KEY = "vyron"
+DEFAULT_LINK = "https://uptime.example.com"
+
+# Telegram
+TG_TOKEN = "8572387987:AAGsp2wovwYIAEKyqILwHyktanrmou2-MkU"
+TG_CHAT_ID = "8572387987"
+
+# 企业微信（自定义应用）
+WECOM_CORP_ID = "ww0e90aacf0053b3b4"
+WECOM_AGENT_ID = "1000002"
+WECOM_SECRET = "GhWqhD0stsz8UpKujzX-hexQXEN2lMAUO9xS3NmsY1k"
+
+# 钉钉
+DINGTALK_TOKEN = ""
+DINGTALK_SECRET = ""
